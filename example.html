@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery UI Droppable - Default functionality</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <style>
+    #draggable { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 250px 10px 10px 0; }
+    #droppable { width: 150px; height: 150px; padding: 0.5em; float: left; margin: 250px 10px 10px 10px; }
+    #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+    #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1em; height: 18px; }
+    #sortable li span { position: absolute; margin-left: -1.3em; }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  </head>
+  <body>
+    <!-- Task 1 -->
+  <div id="draggable" class="ui-widget-content">
+    <p>Drag me to my target</p>
+  </div>
+
+  <div id="droppable" class="ui-widget-header">
+    <p>Drop here</p>
+  </div>
+
+  <!-- Task 2 -->
+
+  <ul id="sortable" >
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+  </ul>
+
+  <!-- Task 3 -->
+
+  <div id="el2" class="ui-widget-content" style="margin-top: 200px;">
+    <p>Drag me (drop1)</p>
+  </div>
+
+  <div id="el3" class="ui-widget-content">
+    <p>Drag me (drop1 & drop2)</p>
+  </div>
+
+  <div id="drop1" class="ui-widget-header">
+    <p>Drop here (accepts el2 & el3)</p>
+  </div>
+
+  <div id="drop2" class="ui-widget-header">
+    <p>Drop here (accepts only el3)</p>
+  </div>
+  
+  <script>
+    $( function() {
+      $( "#draggable" ).draggable().resizable();
+      $( "#droppable" ).droppable({
+        drop: function( event, ui ) {
+          $( this )
+            .addClass( "ui-state-highlight" )
+            .find( "p" )
+              .html( "Dropped!" );
+        }
+      });
+      $( "#sortable" ).sortable();
+      $( "#el2, #el3" ).draggable();
+
+      $( "#drop1, #drop2" ).droppable({
+        accept: "#el2, #el3",
+        drop: function( event, ui ) {
+          var droppedElement = ui.draggable.attr("id");
+          if (droppedElement === "el3") {
+            $( this ).addClass( "ui-state-highlight" ).css("background-color", "green");
+            ui.draggable.hide(); 
+          }
+        }
+      });
+    } );
+  </script> 
+  </body>
+</html>
